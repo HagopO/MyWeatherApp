@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class ForecastTableViewController;
+
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) ForecastTableViewController* forecastTableViewController;
+@property (nonatomic, strong) IBOutlet UIImageView* backgroundImageView;
+@property (nonatomic, strong) IBOutlet UIImageView* blurredImageView;
 
 @end
 

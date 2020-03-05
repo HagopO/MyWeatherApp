@@ -18,6 +18,8 @@
 		9A3293BE240FCF0200D75CD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3293BD240FCF0200D75CD3 /* main.m */; };
 		9A3293C8240FCF0400D75CD3 /* MyWeatherAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3293C7240FCF0400D75CD3 /* MyWeatherAppTests.m */; };
 		9A3293D3240FCF0400D75CD3 /* MyWeatherAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3293D2240FCF0400D75CD3 /* MyWeatherAppUITests.m */; };
+		9A436A9924114B09001A8E08 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 9A436A9824114B09001A8E08 /* AppIcon.appiconset */; };
+		9A45B36624119A22007481E2 /* ForecastTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A45B36524119A22007481E2 /* ForecastTableViewController.m */; };
 		DB7175CFEBE77032986090E6 /* Pods_MyWeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5474FE3E7A6442C432672FBE /* Pods_MyWeatherApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,9 @@
 		9A3293CE240FCF0400D75CD3 /* MyWeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyWeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A3293D2240FCF0400D75CD3 /* MyWeatherAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyWeatherAppUITests.m; sourceTree = "<group>"; };
 		9A3293D4240FCF0400D75CD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A436A9824114B09001A8E08 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
+		9A45B36424119A22007481E2 /* ForecastTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForecastTableViewController.h; sourceTree = "<group>"; };
+		9A45B36524119A22007481E2 /* ForecastTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForecastTableViewController.m; sourceTree = "<group>"; };
 		B717190E61B070CC68C7D8B2 /* Pods-MyWeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWeatherAppTests.debug.xcconfig"; path = "Target Support Files/Pods-MyWeatherAppTests/Pods-MyWeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED2033451E47CB663B3AF02A /* Pods_MyWeatherApp_MyWeatherAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyWeatherApp_MyWeatherAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -150,8 +155,11 @@
 				9A3293AF240FCEE900D75CD3 /* SceneDelegate.m */,
 				9A3293B1240FCEE900D75CD3 /* ViewController.h */,
 				9A3293B2240FCEE900D75CD3 /* ViewController.m */,
+				9A45B36424119A22007481E2 /* ForecastTableViewController.h */,
+				9A45B36524119A22007481E2 /* ForecastTableViewController.m */,
 				9A3293B4240FCEEA00D75CD3 /* Main.storyboard */,
 				9A3293B7240FCF0200D75CD3 /* Assets.xcassets */,
+				9A436A9824114B09001A8E08 /* AppIcon.appiconset */,
 				9A3293B9240FCF0200D75CD3 /* LaunchScreen.storyboard */,
 				9A3293BC240FCF0200D75CD3 /* Info.plist */,
 				9A3293BD240FCF0200D75CD3 /* main.m */,
@@ -285,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A436A9924114B09001A8E08 /* AppIcon.appiconset in Resources */,
 				9A3293BB240FCF0200D75CD3 /* LaunchScreen.storyboard in Resources */,
 				9A3293B8240FCF0200D75CD3 /* Assets.xcassets in Resources */,
 				9A3293B6240FCEEA00D75CD3 /* Main.storyboard in Resources */,
@@ -416,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A3293B3240FCEE900D75CD3 /* ViewController.m in Sources */,
+				9A45B36624119A22007481E2 /* ForecastTableViewController.m in Sources */,
 				9A3293AD240FCEE900D75CD3 /* AppDelegate.m in Sources */,
 				9A3293BE240FCF0200D75CD3 /* main.m in Sources */,
 				9A3293B0240FCEE900D75CD3 /* SceneDelegate.m in Sources */,
@@ -597,7 +607,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = prx.MyWeatherApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -615,7 +625,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = prx.MyWeatherApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
