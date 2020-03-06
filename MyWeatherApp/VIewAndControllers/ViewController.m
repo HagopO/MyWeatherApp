@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ForecastTableViewController.h"
+#import "APIManager.h"
 
 #import <TSMessage.h>
 
@@ -42,6 +43,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear: animated];
+    
+    [[APIManager sharedInstance] getCurrentWeather];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
