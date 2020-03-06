@@ -7,6 +7,7 @@ target 'MyWeatherApp' do
 
   # Pods for MyWeatherApp
   pod 'TSMessages'
+  pod 'RestKit'
 
   target 'MyWeatherAppTests' do
     inherit! :search_paths

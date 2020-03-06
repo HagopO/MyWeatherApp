@@ -149,18 +149,11 @@
 		9A3293AA240FCEE900D75CD3 /* MyWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A92AF0F24127A5D008BE041 /* Assets */,
+				9A92AF0E24127A45008BE041 /* Storyboards */,
+				9A92AF0D24127A23008BE041 /* VIewAndControllers */,
 				9A3293AB240FCEE900D75CD3 /* AppDelegate.h */,
 				9A3293AC240FCEE900D75CD3 /* AppDelegate.m */,
-				9A3293AE240FCEE900D75CD3 /* SceneDelegate.h */,
-				9A3293AF240FCEE900D75CD3 /* SceneDelegate.m */,
-				9A3293B1240FCEE900D75CD3 /* ViewController.h */,
-				9A3293B2240FCEE900D75CD3 /* ViewController.m */,
-				9A45B36424119A22007481E2 /* ForecastTableViewController.h */,
-				9A45B36524119A22007481E2 /* ForecastTableViewController.m */,
-				9A3293B4240FCEEA00D75CD3 /* Main.storyboard */,
-				9A3293B7240FCF0200D75CD3 /* Assets.xcassets */,
-				9A436A9824114B09001A8E08 /* AppIcon.appiconset */,
-				9A3293B9240FCF0200D75CD3 /* LaunchScreen.storyboard */,
 				9A3293BC240FCF0200D75CD3 /* Info.plist */,
 				9A3293BD240FCF0200D75CD3 /* main.m */,
 			);
@@ -183,6 +176,37 @@
 				9A3293D4240FCF0400D75CD3 /* Info.plist */,
 			);
 			path = MyWeatherAppUITests;
+			sourceTree = "<group>";
+		};
+		9A92AF0D24127A23008BE041 /* VIewAndControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9A3293AE240FCEE900D75CD3 /* SceneDelegate.h */,
+				9A3293AF240FCEE900D75CD3 /* SceneDelegate.m */,
+				9A3293B1240FCEE900D75CD3 /* ViewController.h */,
+				9A3293B2240FCEE900D75CD3 /* ViewController.m */,
+				9A45B36424119A22007481E2 /* ForecastTableViewController.h */,
+				9A45B36524119A22007481E2 /* ForecastTableViewController.m */,
+			);
+			path = VIewAndControllers;
+			sourceTree = "<group>";
+		};
+		9A92AF0E24127A45008BE041 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				9A3293B4240FCEEA00D75CD3 /* Main.storyboard */,
+				9A3293B9240FCF0200D75CD3 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		9A92AF0F24127A5D008BE041 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9A3293B7240FCF0200D75CD3 /* Assets.xcassets */,
+				9A436A9824114B09001A8E08 /* AppIcon.appiconset */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
