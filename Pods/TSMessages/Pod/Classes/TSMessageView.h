@@ -53,9 +53,9 @@
                type:(TSMessageNotificationType)notificationType
            duration:(CGFloat)duration
    inViewController:(UIViewController *)viewController
-           callback:(void (^)(void))callback
+           callback:(void (^)())callback
         buttonTitle:(NSString *)buttonTitle
-     buttonCallback:(void (^)(void))buttonCallback
+     buttonCallback:(void (^)())buttonCallback
          atPosition:(TSMessageNotificationPosition)position
 canBeDismissedByUser:(BOOL)dismissingEnabled;
 

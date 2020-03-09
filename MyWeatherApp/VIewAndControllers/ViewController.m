@@ -31,10 +31,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
     
     UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle: UIBlurEffectStyleRegular];
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect: blurEffect];
     
+    self.backgroundImageView.frame = screenBounds;
+    self.blurredImageView.frame = screenBounds;
+
     blurEffectView.frame = self.blurredImageView.bounds;
     [self.blurredImageView addSubview: blurEffectView];
     

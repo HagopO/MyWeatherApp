@@ -10,6 +10,6 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 // testing commits on dev branch
-
+@property (nonatomic, strong) UIWindow* window;
 @end
 

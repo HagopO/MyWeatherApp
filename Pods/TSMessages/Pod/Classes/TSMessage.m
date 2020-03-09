@@ -126,9 +126,9 @@ __weak static UIViewController *_defaultViewController;
                                    image:(UIImage *)image
                                     type:(TSMessageNotificationType)type
                                 duration:(NSTimeInterval)duration
-                                callback:(void (^)(void))callback
+                                callback:(void (^)())callback
                              buttonTitle:(NSString *)buttonTitle
-                          buttonCallback:(void (^)(void))buttonCallback
+                          buttonCallback:(void (^)())buttonCallback
                               atPosition:(TSMessageNotificationPosition)messagePosition
                     canBeDismissedByUser:(BOOL)dismissingEnabled
 {
@@ -191,7 +191,7 @@ __weak static UIViewController *_defaultViewController;
     
     __block CGFloat verticalOffset = 0.0f;
     
-    void (^addStatusBarHeightToVerticalOffset)(void) = ^void() {
+    void (^addStatusBarHeightToVerticalOffset)() = ^void() {
         
         if (currentView.messagePosition == TSMessageNotificationPositionNavBarOverlay){
             return;
@@ -329,7 +329,7 @@ __weak static UIViewController *_defaultViewController;
     [self fadeOutNotification:currentView animationFinishedBlock:nil];
 }
 
-- (void)fadeOutNotification:(TSMessageView *)currentView animationFinishedBlock:(void (^)(void))animationFinished
+- (void)fadeOutNotification:(TSMessageView *)currentView animationFinishedBlock:(void (^)())animationFinished
 {
     currentView.messageIsFullyDisplayed = NO;
     [NSObject cancelPreviousPerformRequestsWithTarget:self
@@ -380,7 +380,7 @@ __weak static UIViewController *_defaultViewController;
     return [self dismissActiveNotificationWithCompletion:nil];
 }
 
-+ (BOOL)dismissActiveNotificationWithCompletion:(void (^)(void))completion
++ (BOOL)dismissActiveNotificationWithCompletion:(void (^)())completion
 {
     if ([[TSMessage sharedMessage].messages count] == 0) return NO;
     
