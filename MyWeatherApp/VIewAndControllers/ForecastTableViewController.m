@@ -7,12 +7,19 @@
 //
 
 #import "ForecastTableViewController.h"
+#import "CurrentWeatherModel.h"
 
 @interface ForecastTableViewController()
 
 @end
 
 @implementation ForecastTableViewController
+
+-(id)init {
+    if (self = [super init]) {
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,6 +38,61 @@
     [self setupUIElements];
 }
 
+#pragma mark -- Protocol required method implementation
+-(void)triggerUIUpdate: (CurrentWeatherModel*)newModel {
+    
+    if (newModel != nil) {
+        // city
+        [UIView transitionWithView: self.cityLabel
+                          duration: 0.5
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.locationString attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                        } completion: nil];
+        // current temperature
+        [UIView transitionWithView: self.temperatureLabel
+                          duration: 0.5
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.temperatureLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"%@°", newModel.currentTemperatureString] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                        } completion: nil];
+        // feels like
+        [UIView transitionWithView: self.feelsLikeLabel
+                          duration: 0.5
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.feelsLikeLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Feels Like: %@°", newModel.feelsLikeTemperatureString] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                        } completion: nil];
+        // wind speed
+        [UIView transitionWithView: self.windSpeedLabel
+                          duration: 0.5
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Wind Speed: %li km/h", newModel.windSpeed] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                        } completion: nil];
+        // humidity level
+        [UIView transitionWithView: self.humidityLabel
+                          duration: 0.5
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.humidityLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Humidity: %li %%", newModel.humidity] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                        } completion: nil];
+        // weather conditions
+        [UIView transitionWithView: self.weatherConditionsLabel
+                          duration: 0.5
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.weatherConditionsArray.firstObject attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                        } completion: nil];
+    }
+    
+    NSURL* weatherIconImageURL = [NSURL URLWithString: newModel.weatherConditionIconsArray.firstObject];
+    NSData* data = [NSData dataWithContentsOfURL: weatherIconImageURL];
+    [self.weatherIconImageView setImage: [UIImage imageWithData: data]];
+    
+    [self.view setNeedsDisplay];
+}
+
 #pragma mark - Table Layout
 
 - (void)calculateUIFrames {
@@ -43,11 +105,15 @@
     
     self.temperatureLabelFrame = CGRectMake (uiInset, self.headerFrame.size.height - (temperatureLabelHeight + otherViewsHeight + uiInset), self.headerFrame.size.width - (2 * uiInset), temperatureLabelHeight);
     
-    self.highLowLabelFrame = CGRectMake (uiInset, self.headerFrame.size.height - (otherViewsHeight + uiInset), self.headerFrame.size.width - (2 * uiInset), otherViewsHeight);
+    self.feelsLikeLabelFrame = CGRectMake (uiInset, self.headerFrame.size.height - (otherViewsHeight + uiInset), self.headerFrame.size.width - (2 * uiInset), otherViewsHeight);
     
     self.weatherIconFrame = CGRectMake (uiInset, self.temperatureLabelFrame.origin.y - (otherViewsHeight + uiInset), otherViewsHeight, otherViewsHeight);
     
     self.weatherConditionsFrame  = CGRectMake (self.weatherIconFrame.origin.x + otherViewsHeight + 10, self.temperatureLabelFrame.origin.y - (otherViewsHeight + uiInset), self.headerFrame.size.width - ((2 * uiInset) + otherViewsHeight + 10), otherViewsHeight);
+    
+    self.windSpeedLabelFrame = CGRectMake (uiInset, self.weatherConditionsFrame.origin.y - (otherViewsHeight + uiInset), self.headerFrame.size.width, otherViewsHeight);
+    
+    self.humidityLabelFrame = CGRectMake (uiInset, self.windSpeedLabelFrame.origin.y - (otherViewsHeight + uiInset), self.headerFrame.size.width, otherViewsHeight);
 }
 
 - (void)setupUIElements {
@@ -62,33 +128,47 @@
     self.temperatureLabel.attributedText = [[NSAttributedString alloc] initWithString: @"0°" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor], NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     [headerView addSubview: self.temperatureLabel];
     
-    // high low label also goes to the bottom left
-    self.highLowLabel = [[UILabel alloc] initWithFrame: self.highLowLabelFrame];
-    self.highLowLabel.backgroundColor = [UIColor clearColor];
-    self.highLowLabel.font = [UIFont fontWithName: @"Helvetica-Light" size: 30];
-    self.highLowLabel.attributedText = [[NSAttributedString alloc] initWithString: @"0° / 0°" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
-    [headerView addSubview: self.highLowLabel];
+    // feels like label also goes to the bottom left
+    self.feelsLikeLabel = [[UILabel alloc] initWithFrame: self.feelsLikeLabelFrame];
+    self.feelsLikeLabel.backgroundColor = [UIColor clearColor];
+    self.feelsLikeLabel.font = [UIFont fontWithName: @"Helvetica-Light" size: 30];
+    self.feelsLikeLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Feels Like:" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+    [headerView addSubview: self.feelsLikeLabel];
     
-    // weather conditions label goes to top
+    // weather conditions label
     self.weatherConditionsLabel = [[UILabel alloc] initWithFrame: self.weatherConditionsFrame];
     self.weatherConditionsLabel.backgroundColor = [UIColor clearColor];
-    self.weatherConditionsLabel.font = [UIFont fontWithName: @"Helvetica" size: 30];
-    self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Rainy" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+    self.weatherConditionsLabel.font = [UIFont fontWithName: @"Helvetica" size: 25];
+    self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: @"n/a" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     [headerView addSubview: self.weatherConditionsLabel];
     
-    // weather conditions label goes to top
+    // weather condition icon
     self.weatherIconImageView = [[UIImageView alloc] initWithFrame: self.weatherIconFrame];
     self.weatherIconImageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.weatherIconImageView.backgroundColor = [UIColor blackColor];
+    self.weatherIconImageView.backgroundColor = [UIColor clearColor];
+    self.weatherIconImageView.alpha = 0.8;
     [headerView addSubview: self.weatherIconImageView];
     
-    // finally we add the city label
+    // add the city label
     self.cityLabel = [[UILabel alloc] initWithFrame: self.cityLabelFrame];
     self.cityLabel.backgroundColor = [UIColor clearColor];
-    self.cityLabel.font = [UIFont fontWithName: @"Helvetica" size: 25];
-    self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Wuhan..." attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+    self.cityLabel.font = [UIFont fontWithName: @"Helvetica" size: 30];
+    self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Loading..." attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     self.cityLabel.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview: self.cityLabel];
+    
+    // add humidity and windspeed
+    self.windSpeedLabel = [[UILabel alloc] initWithFrame: self.windSpeedLabelFrame];
+    self.windSpeedLabel.backgroundColor = [UIColor clearColor];
+    self.windSpeedLabel.font = [UIFont fontWithName: @"Helvetica" size: 25];
+    self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Wind Speed: " attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+    [headerView addSubview: self.windSpeedLabel];
+    
+    self.humidityLabel = [[UILabel alloc] initWithFrame: self.humidityLabelFrame];
+    self.humidityLabel.backgroundColor = [UIColor clearColor];
+    self.humidityLabel.font = [UIFont fontWithName: @"Helvetica" size: 25];
+    self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Humidity: " attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+    [headerView addSubview: self.humidityLabel];
 }
 
 #pragma mark - TableViewDataSource

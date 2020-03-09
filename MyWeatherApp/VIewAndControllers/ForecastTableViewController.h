@@ -9,23 +9,36 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class CurrentWeatherModel;
 
-@interface ForecastTableViewController : UITableViewController
+// protocol used to notify view when the model changes
+@protocol UIUpdateDelegate
+@required
+    -(void)triggerUIUpdate: (CurrentWeatherModel*) newModel;
+@end
+
+@interface ForecastTableViewController : UITableViewController <UIUpdateDelegate>
+
+-(id)init;
 
 @property (nonatomic, assign) CGFloat screenHeight; // used in paging calculations
 @property (nonatomic, assign) CGRect headerFrame;
 
-@property (nonatomic, assign) CGRect cityLabelFrame;
-@property (nonatomic, assign) CGRect temperatureLabelFrame;
-@property (nonatomic, assign) CGRect highLowLabelFrame;
-@property (nonatomic, assign) CGRect weatherIconFrame;
-@property (nonatomic, assign) CGRect weatherConditionsFrame;
-
 @property (nonatomic, strong) UILabel* cityLabel;
 @property (nonatomic, strong) UILabel* temperatureLabel;
-@property (nonatomic, strong) UILabel* highLowLabel;
+@property (nonatomic, strong) UILabel* feelsLikeLabel;
+@property (nonatomic, strong) UILabel* windSpeedLabel;
+@property (nonatomic, strong) UILabel* humidityLabel;
 @property (nonatomic, strong) UIImageView* weatherIconImageView;
 @property (nonatomic, strong) UILabel* weatherConditionsLabel;
+
+@property (nonatomic, assign) CGRect cityLabelFrame;
+@property (nonatomic, assign) CGRect temperatureLabelFrame;
+@property (nonatomic, assign) CGRect feelsLikeLabelFrame;
+@property (nonatomic, assign) CGRect windSpeedLabelFrame;
+@property (nonatomic, assign) CGRect humidityLabelFrame;
+@property (nonatomic, assign) CGRect weatherIconFrame;
+@property (nonatomic, assign) CGRect weatherConditionsFrame;
 
 @end
 

@@ -7,9 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "CurrentWeatherModel.h"
 #import "ForecastTableViewController.h"
 #import "APIManager.h"
-
 #import <TSMessage.h>
 
 @interface ViewController ()
@@ -22,11 +22,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [TSMessage setDefaultViewController: self];
-    
-    // setup forecast table
     ForecastTableViewController* forecastTableViewController = [[ForecastTableViewController alloc] init];
-    
-    [self.view addSubview: forecastTableViewController.tableView];
+    self.forecastTableViewController = forecastTableViewController;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -42,13 +39,47 @@
     blurEffectView.frame = self.blurredImageView.bounds;
     [self.blurredImageView addSubview: blurEffectView];
     
-    // setup forecast table
+    [self.view addSubview: self.forecastTableViewController.tableView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear: animated];
     
-    [[APIManager sharedInstance] getCurrentWeather];
+    // notify the UI that results were received from the server
+    [[APIManager sharedInstance] getCurrentWeather:^(CurrentWeatherModel* result, BOOL error) {
+        if (error == NO) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    CurrentWeatherModel* newModel = result;
+                    NSString* newBackgroundImageName = @"";
+                    [self.forecastTableViewController triggerUIUpdate: newModel];
+                    
+                    // change background wallpaper depending on whether its night at the location or not
+                    if ([newModel isNightTime: newModel.locationTime] == YES) {
+                        newBackgroundImageName = @"Night.png";
+                    }
+                    else {
+                        newBackgroundImageName = @"Day.png";
+                    }
+                    
+                    [UIView transitionWithView: self.backgroundImageView
+                                      duration: 0.5
+                                       options: UIViewAnimationOptionTransitionCrossDissolve
+                                    animations:^{
+                                        self.backgroundImageView.image = [UIImage imageNamed: newBackgroundImageName];
+                                    } completion: nil];
+                    [UIView transitionWithView: self.blurredImageView
+                                      duration: 0.5
+                                       options: UIViewAnimationOptionTransitionCrossDissolve
+                                    animations:^{
+                                        self.blurredImageView.image = [UIImage imageNamed: newBackgroundImageName];
+                                    } completion: nil];
+            });
+        }
+    }];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    NSLog(@"");
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class RKObjectManager;
+@class RKObjectManager, CurrentWeatherModel;
 
 @interface APIManager : NSObject
 
@@ -20,13 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 // way to ensure singleton behavior
 -(instancetype)init NS_UNAVAILABLE;
 
--(void)getCurrentWeather;
+-(void)getCurrentWeather: (void (^) (CurrentWeatherModel *response, bool errorOccured)) handler;
 
 @property (nonatomic, strong) RKObjectManager* restKitManager;
 
 @property (nonatomic, strong) NSString* weatherStackBaseURLString;
 @property (nonatomic, strong) NSString* weatherStackAPIAccessKeyString;
-@property (nonatomic, strong) NSString* currentWeahterServiceURLString;
+@property (nonatomic, strong) NSString* currentWeahterWithForecastServiceURLString;
 
 @end
 
