@@ -1,0 +1,9 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/HexColors" "${PODS_CONFIGURATION_BUILD_DIR}/ISO8601DateFormatterValueTransformer" "${PODS_CONFIGURATION_BUILD_DIR}/RKValueTransformers" "${PODS_CONFIGURATION_BUILD_DIR}/RestKit" "${PODS_CONFIGURATION_BUILD_DIR}/SOCKit" "${PODS_CONFIGURATION_BUILD_DIR}/TSMessages" "${PODS_CONFIGURATION_BUILD_DIR}/TransitionKit"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/HexColors/HexColors.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/ISO8601DateFormatterValueTransformer/ISO8601DateFormatterValueTransformer.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RKValueTransformers/RKValueTransformers.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RestKit/RestKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SOCKit/SOCKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/TSMessages/TSMessages.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/TransitionKit/TransitionKit.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "CFNetwork" -framework "CoreData" -framework "HexColors" -framework "ISO8601DateFormatterValueTransformer" -framework "MobileCoreServices" -framework "RKValueTransformers" -framework "RestKit" -framework "SOCKit" -framework "Security" -framework "SystemConfiguration" -framework "TSMessages" -framework "TransitionKit"
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES
