@@ -8,6 +8,8 @@
 
 #import "ForecastTableViewController.h"
 #import "CurrentWeatherModel.h"
+#import "SearchResultsTableViewController.h"
+#import "CitiesUISearchViewController.h"
 
 @interface ForecastTableViewController()
 
@@ -112,7 +114,7 @@
     const CGFloat otherViewsHeight = 40;
     
     // calculate the frames of UI elements in the table
-    self.cityLabelFrame = CGRectMake(0, 20, self.headerFrame.size.width, otherViewsHeight);
+    self.cityLabelFrame = CGRectMake(0, 80, self.headerFrame.size.width, otherViewsHeight);
     
     self.temperatureLabelFrame = CGRectMake (uiInset, self.headerFrame.size.height - (temperatureLabelHeight + otherViewsHeight + uiInset), self.headerFrame.size.width - (2 * uiInset), temperatureLabelHeight);
     
@@ -150,7 +152,7 @@
     self.weatherConditionsLabel = [[UILabel alloc] initWithFrame: self.weatherConditionsFrame];
     self.weatherConditionsLabel.backgroundColor = [UIColor clearColor];
     self.weatherConditionsLabel.font = [UIFont fontWithName: @"Helvetica" size: 25];
-    self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: @"n/a" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+    self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: @"" attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     [headerView addSubview: self.weatherConditionsLabel];
     
     // weather condition icon
@@ -180,6 +182,25 @@
     self.humidityLabel.font = [UIFont fontWithName: @"Helvetica" size: 25];
     self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Humidity: " attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     [headerView addSubview: self.humidityLabel];
+    
+    
+    self.searchTableViewController = [[SearchResultsTableViewController alloc] initWithStyle: UITableViewStylePlain];
+ 
+    
+    self.searchController = [[CitiesUISearchViewController alloc] initWithSearchResultsController: self.searchTableViewController];
+    self.searchController.searchResultsUpdater = self.searchTableViewController;
+    self.navigationItem.searchController = self.searchController;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.delegate = self.searchTableViewController;
+    
+    self.searchTableViewController.tableView.delegate = self.searchTableViewController;
+    self.searchTableViewController.tableView.dataSource = self.searchTableViewController;
+    self.searchTableViewController.weakParent = self.searchController;
+    self.searchTableViewController.tableView.backgroundColor = [UIColor clearColor];
+    self.searchTableViewController.tableView.separatorColor = [UIColor whiteColor];
+    
+    [headerView addSubview: self.searchController.searchBar];
+    [headerView bringSubviewToFront: self.searchController.searchResultsController.view];
 }
 
 #pragma mark - TableViewDataSource
@@ -206,7 +227,7 @@
     cell.backgroundColor = [UIColor colorWithWhite: 0 alpha: 0.25];
     cell.textLabel.textColor = cell.detailTextLabel.textColor = [UIColor whiteColor];
 
-    return 0;
+    return cell;
 }
 
 #pragma mark - TableViewDelegate

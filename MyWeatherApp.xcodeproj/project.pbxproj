@@ -22,6 +22,8 @@
 		9A45B36624119A22007481E2 /* ForecastTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A45B36524119A22007481E2 /* ForecastTableViewController.m */; };
 		9A92AF122412818D008BE041 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A92AF112412818D008BE041 /* APIManager.m */; };
 		9A92AF1624129616008BE041 /* CurrentWeatherModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A92AF1524129616008BE041 /* CurrentWeatherModel.m */; };
+		C015FB7524180EB900BE97CF /* SearchResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C015FB7424180EB900BE97CF /* SearchResultsTableViewController.m */; };
+		C015FB782418247D00BE97CF /* CitiesUISearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C015FB772418247D00BE97CF /* CitiesUISearchViewController.m */; };
 		DB7175CFEBE77032986090E6 /* Pods_MyWeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5474FE3E7A6442C432672FBE /* Pods_MyWeatherApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +78,10 @@
 		9A92AF1424129616008BE041 /* CurrentWeatherModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurrentWeatherModel.h; sourceTree = "<group>"; };
 		9A92AF1524129616008BE041 /* CurrentWeatherModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurrentWeatherModel.m; sourceTree = "<group>"; };
 		B717190E61B070CC68C7D8B2 /* Pods-MyWeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWeatherAppTests.debug.xcconfig"; path = "Target Support Files/Pods-MyWeatherAppTests/Pods-MyWeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C015FB7324180EB900BE97CF /* SearchResultsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultsTableViewController.h; sourceTree = "<group>"; };
+		C015FB7424180EB900BE97CF /* SearchResultsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultsTableViewController.m; sourceTree = "<group>"; };
+		C015FB762418247D00BE97CF /* CitiesUISearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CitiesUISearchViewController.h; sourceTree = "<group>"; };
+		C015FB772418247D00BE97CF /* CitiesUISearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CitiesUISearchViewController.m; sourceTree = "<group>"; };
 		ED2033451E47CB663B3AF02A /* Pods_MyWeatherApp_MyWeatherAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyWeatherApp_MyWeatherAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -196,6 +202,10 @@
 				9A3293B2240FCEE900D75CD3 /* ViewController.m */,
 				9A45B36424119A22007481E2 /* ForecastTableViewController.h */,
 				9A45B36524119A22007481E2 /* ForecastTableViewController.m */,
+				C015FB7324180EB900BE97CF /* SearchResultsTableViewController.h */,
+				C015FB7424180EB900BE97CF /* SearchResultsTableViewController.m */,
+				C015FB762418247D00BE97CF /* CitiesUISearchViewController.h */,
+				C015FB772418247D00BE97CF /* CitiesUISearchViewController.m */,
 			);
 			path = VIewAndControllers;
 			sourceTree = "<group>";
@@ -468,8 +478,10 @@
 			files = (
 				9A3293B3240FCEE900D75CD3 /* ViewController.m in Sources */,
 				9A45B36624119A22007481E2 /* ForecastTableViewController.m in Sources */,
+				C015FB782418247D00BE97CF /* CitiesUISearchViewController.m in Sources */,
 				9A92AF122412818D008BE041 /* APIManager.m in Sources */,
 				9A3293AD240FCEE900D75CD3 /* AppDelegate.m in Sources */,
+				C015FB7524180EB900BE97CF /* SearchResultsTableViewController.m in Sources */,
 				9A92AF1624129616008BE041 /* CurrentWeatherModel.m in Sources */,
 				9A3293BE240FCF0200D75CD3 /* main.m in Sources */,
 				9A3293B0240FCEE900D75CD3 /* SceneDelegate.m in Sources */,

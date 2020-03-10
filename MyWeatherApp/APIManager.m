@@ -58,8 +58,8 @@
     [self.restKitManager addResponseDescriptor: rDescriptor];
 }
 
--(void)getCurrentWeather: (void (^) (CurrentWeatherModel *response, bool errorOccured)) handler {
-    NSDictionary* params = @{@"access_key": self.weatherStackAPIAccessKeyString, @"query": @"Beirut"};
+-(void)getCurrentWeather: (NSString*)queryString completionBlock:(void (^) (CurrentWeatherModel *response, bool errorOccured)) handler {
+    NSDictionary* params = @{@"access_key": self.weatherStackAPIAccessKeyString, @"query": queryString};
     __block CurrentWeatherModel* returnedResult = [[CurrentWeatherModel alloc] init];
     
     [self.restKitManager getObjectsAtPath: self.currentWeahterWithForecastServiceURLString parameters: params success:^(RKObjectRequestOperation *operation, RKMappingResult *result) {

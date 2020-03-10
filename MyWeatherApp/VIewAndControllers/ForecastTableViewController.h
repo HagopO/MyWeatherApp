@@ -5,11 +5,10 @@
 //  Created by Mountain Lion on 3/5/20.
 //  Copyright © 2020 Proximie. All rights reserved.
 //
-
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class CurrentWeatherModel;
+@class CurrentWeatherModel, CitiesUISearchViewController, SearchResultsTableViewController;
 
 // protocol used to notify view when the model changes
 @protocol UIUpdateDelegate
@@ -22,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(id)init;
 -(void)calculateUIFrames;
 -(void)setupUIElements;
+
+@property (nonatomic, strong) CitiesUISearchViewController* searchController;
+@property (nonatomic, strong) SearchResultsTableViewController* searchTableViewController;
 
 @property (nonatomic, assign) CGFloat screenHeight; // used in paging calculations
 @property (nonatomic, assign) CGRect headerFrame;

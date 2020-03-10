@@ -12,6 +12,8 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) UISearchBar* searchBar;
+
 @property (nonatomic, strong) ForecastTableViewController* forecastTableViewController;
 @property (nonatomic, strong) IBOutlet UIImageView* backgroundImageView;
 @property (nonatomic, strong) IBOutlet UIImageView* blurredImageView;

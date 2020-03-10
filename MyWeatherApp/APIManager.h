@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 // way to ensure singleton behavior
 -(instancetype)init NS_UNAVAILABLE;
 
--(void)getCurrentWeather: (void (^) (CurrentWeatherModel *response, bool errorOccured)) handler;
+-(void)getCurrentWeather: (NSString*)queryString completionBlock:(void (^) (CurrentWeatherModel *response, bool errorOccured)) handler;
 
 @property (nonatomic, strong) RKObjectManager* restKitManager;
 
