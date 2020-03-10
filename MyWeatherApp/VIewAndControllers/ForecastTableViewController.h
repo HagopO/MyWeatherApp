@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ForecastTableViewController : UITableViewController <UIUpdateDelegate>
 
 -(id)init;
+-(void)calculateUIFrames;
+-(void)setupUIElements;
 
 @property (nonatomic, assign) CGFloat screenHeight; // used in paging calculations
 @property (nonatomic, assign) CGRect headerFrame;

@@ -35,7 +35,7 @@
     NSDateComponents *components = [[NSCalendar currentCalendar] components: (NSCalendarUnitHour) fromDate: localDate];
     NSInteger hour = [components hour];
     NSLog (@"%li", (long)hour);
-    return (hour > 6 && hour << 18) == NO;
+    return (hour > 6 && hour < 18) == NO;
 }
 
 @end

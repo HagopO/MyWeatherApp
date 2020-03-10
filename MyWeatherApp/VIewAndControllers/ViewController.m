@@ -73,17 +73,15 @@
                                     animations:^{
                                         self.blurredImageView.image = [UIImage imageNamed: newBackgroundImageName];
                                     } completion: nil];
+                    
+                    [self.view setNeedsDisplay];
             });
         }
     }];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    NSLog(@"");
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 @end

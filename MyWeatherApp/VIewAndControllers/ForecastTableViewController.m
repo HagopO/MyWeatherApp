@@ -40,49 +40,60 @@
 
 #pragma mark -- Protocol required method implementation
 -(void)triggerUIUpdate: (CurrentWeatherModel*)newModel {
+    UIColor* textStrokeColor = [UIColor blackColor];
+    UIColor* textForegroundColor = [UIColor whiteColor];
     
     if (newModel != nil) {
+        if ([newModel isNightTime: newModel.locationTime] == YES) {
+            textStrokeColor = [UIColor blueColor];
+            textForegroundColor = [UIColor whiteColor];
+        }
+        else {
+            textStrokeColor = [UIColor whiteColor];
+            textForegroundColor = [UIColor blackColor];
+        }
+            
         // city
         [UIView transitionWithView: self.cityLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.locationString attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                            self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.locationString attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
         // current temperature
         [UIView transitionWithView: self.temperatureLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.temperatureLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"%@°", newModel.currentTemperatureString] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                            self.temperatureLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"%@°", newModel.currentTemperatureString] attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
         // feels like
         [UIView transitionWithView: self.feelsLikeLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.feelsLikeLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Feels Like: %@°", newModel.feelsLikeTemperatureString] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                            self.feelsLikeLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Feels Like: %@°", newModel.feelsLikeTemperatureString] attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
         // wind speed
         [UIView transitionWithView: self.windSpeedLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Wind Speed: %li km/h", newModel.windSpeed] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                            self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Wind Speed: %li km/h", newModel.windSpeed] attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
         // humidity level
         [UIView transitionWithView: self.humidityLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.humidityLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Humidity: %li %%", newModel.humidity] attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                            self.humidityLabel.attributedText = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"Humidity: %li %%", newModel.humidity] attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
         // weather conditions
         [UIView transitionWithView: self.weatherConditionsLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.weatherConditionsArray.firstObject attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
+                            self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.weatherConditionsArray.firstObject attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
     }
     
