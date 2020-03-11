@@ -14,13 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CurrentWeatherModel : NSObject
 
 -(id)init;
--(BOOL)isNightTime: (NSTimeInterval)localTime;
+-(BOOL)isNightTime;
 
 @property (nonatomic, strong) NSString* locationString; // name of city
-@property (nonatomic, strong) NSString* locationTypeString; // city/town/etc
+@property (nonatomic, strong) NSString* locationTimeString; 
 @property (nonatomic, strong) NSString* currentTemperatureString;
 @property (nonatomic, strong) NSString* feelsLikeTemperatureString;
-@property (nonatomic, assign) NSTimeInterval locationTime; // time at selected location
+
+// TimeZone needed to correct local time
+@property (nonatomic, strong) NSString *TimeZoneString; 
 
 // additional info like windspeed, humidity, weather conditions
 @property (nonatomic, assign) NSInteger windSpeed;

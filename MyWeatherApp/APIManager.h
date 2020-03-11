@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString* weatherStackBaseURLString; // weather stack url
 @property (nonatomic, strong) NSString* weatherStackAPIAccessKeyString; // API key
-@property (nonatomic, strong) NSString* currentWeatherWithForecastServiceURLString;
+@property (nonatomic, strong) NSString* currentWeatherWithForecastServiceURLString; // service url
 
 @end
 

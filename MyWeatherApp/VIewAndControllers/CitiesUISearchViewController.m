@@ -2,7 +2,7 @@
 //  CitiesUISearchViewController.m
 //  MyWeatherApp
 //
-//  Created by Jocelyne Abi Haidar on 3/10/20.
+//  Created by Hagop Ohanessian on 3/10/20.
 //  Copyright © 2020 Proximie. All rights reserved.
 //
 
@@ -19,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog (@"%@ viewDidLoad", self);
 }
 
 #pragma - Searchbar

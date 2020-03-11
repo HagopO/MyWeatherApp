@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-// testing commits on dev branch
+// property required in earlier versions
 @property (nonatomic, strong) UIWindow* window;
 @end
 

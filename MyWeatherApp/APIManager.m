@@ -34,6 +34,7 @@
     return self;
 }
 
+// configures restkit with appropriate attribute mappings and response descriptor
 -(void)configureRestKit {
     NSURL *baseURL = [NSURL URLWithString: self.weatherStackBaseURLString];
     AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
@@ -45,11 +46,10 @@
     RKObjectMapping *weatherMapping = [RKObjectMapping mappingForClass: [CurrentWeatherModel class]];
     
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.temperature" : @"currentTemperatureString"}];
-    [weatherMapping addAttributeMappingsFromDictionary: @{@"request.type" : @"locationTypeString"}];
     [weatherMapping addAttributeMappingsFromDictionary: @{@"location.name" : @"locationString"}];
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.feelslike" : @"feelsLikeTemperatureString"}];
-    [weatherMapping addAttributeMappingsFromDictionary: @{@"location.localtime_epoch" : @"locationTime"}];
-    
+    [weatherMapping addAttributeMappingsFromDictionary: @{@"location.timezone_id" : @"TimeZoneString"}];
+
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.wind_speed" : @"windSpeed"}];
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.humidity" : @"humidity"}];
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.weather_descriptions": @"weatherConditionsArray"}];
@@ -60,6 +60,7 @@
     [self.restKitManager addResponseDescriptor: rDescriptor];
 }
 
+// get current weather details given a city name
 -(void)getCurrentWeather: (NSString*)queryString completionBlock:(void (^) (CurrentWeatherModel *response, bool errorOccured)) handler {
     NSDictionary* params = @{@"access_key": self.weatherStackAPIAccessKeyString, @"query": queryString};
     __block CurrentWeatherModel* returnedResult = [[CurrentWeatherModel alloc] init];

@@ -25,6 +25,8 @@
 
 #pragma mark - UISceneSession lifecycle
 
+// NOTE: UISceneConfiguration is not available in earlier versions
+
 //
 //- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
 //    // Called when a new scene session is being created.

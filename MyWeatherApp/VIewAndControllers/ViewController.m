@@ -62,7 +62,8 @@
             [self.view makeToast: @"An error occured. Please check if you are connected to the internet and try again" duration: 3.0 position: CSToastPositionCenter];
         }
     }];
-        NSLog (@"%@ viewDidAppear", self);
+    
+    NSLog (@"%@ viewDidAppear", self);
 }
 
 // blur or unblur background image depending on whether scrolling started or stopped
@@ -88,11 +89,13 @@
         NSLog (@"Update UI notification received");
         CurrentWeatherModel* newModel = [dict valueForKey: @"result"];
         
-        if ([newModel isKindOfClass: [CurrentWeatherModel class]]) {
-            [self updateViewsWithResult: newModel];
-        }
-        else { // error occured
-            [self.view makeToast: @"An error occured. Please check if you are connected to the internet and try again" duration: 3.0 position: CSToastPositionCenter];
+        if (newModel != nil) {
+            if ([newModel isKindOfClass: [CurrentWeatherModel class]]) {
+                [self updateViewsWithResult: newModel];
+            }
+            else { // error occured
+                [self.view makeToast: @"An error occured. Please check if you are connected to the internet and try again" duration: 3.0 position: CSToastPositionCenter];
+            }
         }
     }
     
@@ -107,10 +110,9 @@
 // update UI elements using new model values
 -(void)updateViewsWithResult: (CurrentWeatherModel*) newModel {
     NSString* newBackgroundImageName = @"";
-    [self.forecastTableViewController triggerUIUpdate: newModel];
     
     // change background wallpaper depending on whether its night at the location or not
-    if ([newModel isNightTime: newModel.locationTime] == YES) {
+    if ([newModel isNightTime] == YES) {
         newBackgroundImageName = @"Night.png";
     }
     else {
@@ -118,19 +120,24 @@
     }
     
     [UIView transitionWithView: self.backgroundImageView
-                      duration: 0.5
+                      duration: 0.2
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         self.backgroundImageView.image = [UIImage imageNamed: newBackgroundImageName];
                     } completion: nil];
     [UIView transitionWithView: self.blurredImageView
-                      duration: 0.5
+                      duration: 0.2
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         self.blurredImageView.image = [UIImage imageNamed: newBackgroundImageName];
                     } completion: nil];
     
-    [self.view setNeedsDisplay];
+    [self.forecastTableViewController triggerUIUpdate: newModel];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.view setNeedsDisplay];
+        NSLog (@"Updating view. Refreshing.");
+    });
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

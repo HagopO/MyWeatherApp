@@ -13,10 +13,10 @@
 -(id)init {
     if (self = [super init]) {
         self.locationString = @"";
-        self.locationTypeString = @"";
+        self.locationTimeString = @"";
         self.currentTemperatureString = @"";
         self.feelsLikeTemperatureString = @"";
-        self.locationTime = (NSTimeInterval)0;
+        self.TimeZoneString = @"";
 
         self.windSpeed = self.humidity = 0;
         self.weatherConditionsArray = [[NSMutableArray alloc] initWithCapacity: 1];
@@ -25,15 +25,35 @@
     return self;
 }
 
--(BOOL)isNightTime: (NSTimeInterval)localTime {
-    NSDate* localDate = [NSDate dateWithTimeIntervalSince1970: localTime];
+// uses the TimeZone value returned by the API to generate a time for selected location
+// and determine whether its nighttime or not
+-(BOOL)isNightTime {
     // this implementation can be made more accurate by getting sunrise and sunset times and then using those to determine if its nighttime at a location. For the purpose of this excercise, a simpler implementation will be used.
     NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
-    timeFormatter.dateFormat = @"HH:mm:ss";
-    NSDateComponents *components = [[NSCalendar currentCalendar] components: (NSCalendarUnitHour) fromDate: localDate];
+    
+    timeFormatter.dateFormat = @"h:mm a";
+    timeFormatter.timeZone = [NSTimeZone timeZoneWithName: self.TimeZoneString];
+    
+    // by getting the current time locally, and passing the timezone that we have from
+    // the API, we will be getting the time at the selected location
+    NSDate* currentDate = [NSDate date];
+    NSString* date = [timeFormatter stringFromDate: currentDate];
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    [calendar setTimeZone: timeFormatter.timeZone]; // set time zone for calendar too
+    NSDateComponents* components = [calendar components: (NSCalendarUnitHour) fromDate: currentDate];
+    
     NSInteger hour = [components hour];
     NSLog (@"%li", (long)hour);
-    return (hour > 6 && hour < 18) == NO;
+    self.locationTimeString = date;
+    
+    switch (hour) {
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6:
+        case 18: case 19: case 20: case 21: case 22: case 23:
+            return YES;
+        break;
+    }
+    return NO;
 }
 
 @end

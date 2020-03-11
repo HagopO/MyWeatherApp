@@ -25,28 +25,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.headerFrame = [[UIScreen  mainScreen] bounds];
-    // setup table headers, UI frames and layout
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    // setup table atributes
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorColor = [UIColor colorWithWhite: 1 alpha: 0.25];
     self.tableView.pagingEnabled = YES;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
+    // calculate frames and then setup main UI
     [self calculateUIFrames];
     [self setupUIElements];
+    [self setupSearchBarElements];
 }
 
-#pragma mark -- Protocol required method implementation
+#pragma mark - Protocol required method implementation
+// any object implementing this protocol must provide an appropriate implementation
+// to reflect the changes passed in newModel
 -(void)triggerUIUpdate: (CurrentWeatherModel*)newModel {
     UIColor* textStrokeColor = [UIColor blackColor];
     UIColor* textForegroundColor = [UIColor whiteColor];
     
     if (newModel != nil) {
-        if ([newModel isNightTime: newModel.locationTime] == YES) {
+        if ([newModel isNightTime] == YES) {
             textStrokeColor = [UIColor blueColor];
             textForegroundColor = [UIColor whiteColor];
         }
@@ -56,11 +59,12 @@
         }
             
         // city
+        NSString* cityAndTimeString = [NSString stringWithFormat: @"%@ (%@)", newModel.locationString, newModel.locationTimeString];
         [UIView transitionWithView: self.cityLabel
                           duration: 0.5
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.locationString attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
+                            self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: cityAndTimeString attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
         // current temperature
         [UIView transitionWithView: self.temperatureLabel
@@ -97,17 +101,22 @@
                         animations:^{
                             self.weatherConditionsLabel.attributedText = [[NSAttributedString alloc] initWithString: newModel.weatherConditionsArray.firstObject attributes:@{ NSStrokeColorAttributeName: textStrokeColor,  NSForegroundColorAttributeName: textForegroundColor, NSStrokeWidthAttributeName: @-2.0}];
                         } completion: nil];
+    
+        NSURL* weatherIconImageURL = [NSURL URLWithString: newModel.weatherConditionIconsArray.firstObject];
+        NSData* data = [NSData dataWithContentsOfURL: weatherIconImageURL];
+        [self.weatherIconImageView setImage: [UIImage imageWithData: data]];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSLog (@"TriggerUIUpdate Refreshing.");
+            [self.view setNeedsDisplay];
+        });
     }
-    
-    NSURL* weatherIconImageURL = [NSURL URLWithString: newModel.weatherConditionIconsArray.firstObject];
-    NSData* data = [NSData dataWithContentsOfURL: weatherIconImageURL];
-    [self.weatherIconImageView setImage: [UIImage imageWithData: data]];
-    
-    [self.view setNeedsDisplay];
+    else {
+        NSLog (@"triggerUIUpdate called with NIL!");
+    }
 }
 
 #pragma mark - Table Layout
-
 - (void)calculateUIFrames {
     const CGFloat uiInset = 25;
     const CGFloat temperatureLabelHeight = 110;
@@ -127,6 +136,8 @@
     self.windSpeedLabelFrame = CGRectMake (uiInset, self.weatherConditionsFrame.origin.y - (otherViewsHeight + uiInset), self.headerFrame.size.width, otherViewsHeight);
     
     self.humidityLabelFrame = CGRectMake (uiInset, self.windSpeedLabelFrame.origin.y - (otherViewsHeight + uiInset), self.headerFrame.size.width, otherViewsHeight);
+    
+    NSLog (@"calculateUIFrames completed");
 }
 
 - (void)setupUIElements {
@@ -183,8 +194,12 @@
     self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Humidity: " attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     [headerView addSubview: self.humidityLabel];
     
+    NSLog (@"setupUIElements completed");
+}
+
+- (void)setupSearchBarElements {
     self.searchTableViewController = [[SearchResultsTableViewController alloc] initWithStyle: UITableViewStylePlain];
- 
+    
     self.searchController = [[CitiesUISearchViewController alloc] initWithSearchResultsController: self.searchTableViewController];
     self.searchController.searchResultsUpdater = self.searchTableViewController;
     self.navigationItem.searchController = self.searchController;
@@ -199,8 +214,9 @@
     self.searchTableViewController.tableView.backgroundColor = [UIColor clearColor];
     self.searchTableViewController.tableView.separatorColor = [UIColor whiteColor];
     
-    [headerView addSubview: self.searchController.searchBar];
-    [headerView bringSubviewToFront: self.searchController.searchResultsController.view];
+    [self.tableView.tableHeaderView addSubview: self.searchController.searchBar];
+    
+    NSLog (@"setupSearchBarElements completed");
 }
 
 #pragma mark - TableViewDataSource
@@ -238,11 +254,13 @@
 }
 
 #pragma mark - ScrollViewDelegate
+// notify controller when scrolling begins
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     NSDictionary* userInfo = [NSDictionary dictionaryWithObject: @(YES) forKey: @"start"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"ScrollBegan" object: nil userInfo: userInfo];
 }
 
+// notify controller when scrolling ends
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSDictionary* userInfo = [NSDictionary dictionaryWithObject: @(NO) forKey: @"start"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"ScrollBegan" object: nil userInfo: userInfo];

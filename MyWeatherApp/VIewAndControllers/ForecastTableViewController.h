@@ -2,7 +2,7 @@
 //  ForecastTableViewController.h
 //  MyWeatherApp
 //
-//  Created by Mountain Lion on 3/5/20.
+//  Created by Hagop Ohanessian on 3/5/20.
 //  Copyright © 2020 Proximie. All rights reserved.
 //
 #import <UIKit/UIKit.h>
@@ -19,13 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ForecastTableViewController : UITableViewController <UIUpdateDelegate, UIScrollViewDelegate>
 
 -(id)init;
--(void)calculateUIFrames;
--(void)setupUIElements;
+-(void)calculateUIFrames; // calculate UI frames
+-(void)setupUIElements; // setup UI elements and their properties
+-(void)setupSearchBarElements; //setup searchbar and related items
 
 @property (nonatomic, strong) CitiesUISearchViewController* searchController;
 @property (nonatomic, strong) SearchResultsTableViewController* searchTableViewController;
 
-@property (nonatomic, assign) CGFloat screenHeight; // used in paging calculations
+@property (nonatomic, assign) CGFloat screenHeight;
 @property (nonatomic, assign) CGRect headerFrame;
 
 @property (nonatomic, strong) UILabel* cityLabel;
