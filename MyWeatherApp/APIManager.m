@@ -2,7 +2,7 @@
 //  APIManager.m
 //  MyWeatherApp
 //
-//  Created by Mountain Lion on 3/6/20.
+//  Created by Hagop Ohanessian 3/6/20.
 //  Copyright © 2020 Proximie. All rights reserved.
 //
 
@@ -25,9 +25,10 @@
 
 -(instancetype)init {
     if (self = [super init]) {
+        // init base url, API key and service url
         self.weatherStackBaseURLString = @"http://api.weatherstack.com";
         self.weatherStackAPIAccessKeyString = @"b40ed7542b540bbb8badb511ddafa301";
-        self.currentWeahterWithForecastServiceURLString = @"/forecast";
+        self.currentWeatherWithForecastServiceURLString = @"/forecast";
         [self configureRestKit];
     }
     return self;
@@ -37,6 +38,7 @@
     NSURL *baseURL = [NSURL URLWithString: self.weatherStackBaseURLString];
     AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
     
+    // init restkit with http client
     self.restKitManager = [[RKObjectManager alloc] initWithHTTPClient: client];
     
     // setup object mappings
@@ -53,7 +55,7 @@
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.weather_descriptions": @"weatherConditionsArray"}];
     [weatherMapping addAttributeMappingsFromDictionary: @{@"current.weather_icons" : @"weatherConditionIconsArray"}];
     
-    RKResponseDescriptor* rDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: weatherMapping method: RKRequestMethodGET pathPattern: self.currentWeahterWithForecastServiceURLString keyPath: nil statusCodes: [NSIndexSet indexSetWithIndex: 200]];
+    RKResponseDescriptor* rDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: weatherMapping method: RKRequestMethodGET pathPattern: self.currentWeatherWithForecastServiceURLString keyPath: nil statusCodes: [NSIndexSet indexSetWithIndex: 200]];
     
     [self.restKitManager addResponseDescriptor: rDescriptor];
 }
@@ -62,14 +64,14 @@
     NSDictionary* params = @{@"access_key": self.weatherStackAPIAccessKeyString, @"query": queryString};
     __block CurrentWeatherModel* returnedResult = [[CurrentWeatherModel alloc] init];
     
-    [self.restKitManager getObjectsAtPath: self.currentWeahterWithForecastServiceURLString parameters: params success:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+    [self.restKitManager getObjectsAtPath: self.currentWeatherWithForecastServiceURLString parameters: params success:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
         
         if (result != nil) {
             returnedResult = [result firstObject];
         }
 
         handler(returnedResult, NO);
-        NSLog(@"%@",returnedResult);
+        NSLog(@"API call succeeded. Result: %@",returnedResult);
     }
     failure:^(RKObjectRequestOperation *operation, NSError* error) {
         handler(returnedResult, YES); // returned result contains default values since error occured

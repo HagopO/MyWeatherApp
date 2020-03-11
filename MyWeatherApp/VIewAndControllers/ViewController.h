@@ -12,9 +12,12 @@
 
 @interface ViewController : UIViewController
 
+// searchbar to search/filter by city
 @property (nonatomic, strong) UISearchBar* searchBar;
 
+// main controller that will display weather information
 @property (nonatomic, strong) ForecastTableViewController* forecastTableViewController;
+
 @property (nonatomic, strong) IBOutlet UIImageView* backgroundImageView;
 @property (nonatomic, strong) IBOutlet UIImageView* blurredImageView;
 

@@ -1,4 +1,8 @@
 #import "SceneDelegate.h"
+
+// NOTE: These files are not required for project strucrures under XCode 9.4
+
+
 //
 //@interface SceneDelegate ()
 //

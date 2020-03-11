@@ -27,9 +27,7 @@
 
 -(BOOL)isNightTime: (NSTimeInterval)localTime {
     NSDate* localDate = [NSDate dateWithTimeIntervalSince1970: localTime];
-    // this implementation can be made more accurate by getting sunrise and sunset times and
-    // then using those to determine if its nighttime at a location. For the purpose of this excercise,
-    // a simpler implementation will be used.
+    // this implementation can be made more accurate by getting sunrise and sunset times and then using those to determine if its nighttime at a location. For the purpose of this excercise, a simpler implementation will be used.
     NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
     timeFormatter.dateFormat = @"HH:mm:ss";
     NSDateComponents *components = [[NSCalendar currentCalendar] components: (NSCalendarUnitHour) fromDate: localDate];

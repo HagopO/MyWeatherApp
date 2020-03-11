@@ -183,15 +183,15 @@
     self.windSpeedLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Humidity: " attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
     [headerView addSubview: self.humidityLabel];
     
-    
     self.searchTableViewController = [[SearchResultsTableViewController alloc] initWithStyle: UITableViewStylePlain];
  
-    
     self.searchController = [[CitiesUISearchViewController alloc] initWithSearchResultsController: self.searchTableViewController];
     self.searchController.searchResultsUpdater = self.searchTableViewController;
     self.navigationItem.searchController = self.searchController;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.delegate = self.searchTableViewController;
+    self.searchController.searchBar.barTintColor = [UIColor blackColor];
+    self.searchController.searchBar.alpha = 0.7;
     
     self.searchTableViewController.tableView.delegate = self.searchTableViewController;
     self.searchTableViewController.tableView.dataSource = self.searchTableViewController;
@@ -235,6 +235,17 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     // determine cell height based on screen
     return 44;
+}
+
+#pragma mark - ScrollViewDelegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObject: @(YES) forKey: @"start"];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"ScrollBegan" object: nil userInfo: userInfo];
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObject: @(NO) forKey: @"start"];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"ScrollBegan" object: nil userInfo: userInfo];
 }
 
 @end

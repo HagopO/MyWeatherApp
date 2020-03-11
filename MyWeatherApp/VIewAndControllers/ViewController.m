@@ -10,7 +10,7 @@
 #import "CurrentWeatherModel.h"
 #import "ForecastTableViewController.h"
 #import "APIManager.h"
-#import <TSMessage.h>
+#import <Toast.h>
 
 @interface ViewController ()
 
@@ -20,28 +20,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [TSMessage setDefaultViewController: self];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    
+    // init main controller and all related UI elements
     ForecastTableViewController* forecastTableViewController = [[ForecastTableViewController alloc] init];
     self.forecastTableViewController = forecastTableViewController;
     
+    self.backgroundImageView.frame = self.blurredImageView.frame = screenBounds;
+    
+    // to receive update notification when service call is completed
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveUpdateNotification:) name: @"UpdateViews" object: nil];
+    
+    // notifications to blur background image
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receiveUpdateNotification:) name: @"ScrollBegan" object: nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    [self.view addSubview: self.forecastTableViewController.tableView];
     
+    // add blur effect to blurred image view
     UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle: UIBlurEffectStyleRegular];
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect: blurEffect];
-    
-    self.backgroundImageView.frame = screenBounds;
-    self.blurredImageView.frame = screenBounds;
-
     blurEffectView.frame = self.blurredImageView.bounds;
     [self.blurredImageView addSubview: blurEffectView];
-    
-    [self.view addSubview: self.forecastTableViewController.tableView];
+    NSLog (@"%@ viewWillAppear", self);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -54,16 +57,54 @@
                     [self updateViewsWithResult: result];
             });
         }
+        else {
+            // display a toast message about the error
+            [self.view makeToast: @"An error occured. Please check if you are connected to the internet and try again" duration: 3.0 position: CSToastPositionCenter];
+        }
     }];
+        NSLog (@"%@ viewDidAppear", self);
 }
 
+// blur or unblur background image depending on whether scrolling started or stopped
+-(void)scrollStatusChanged: (BOOL)scrollingBegan {
+    if (scrollingBegan == YES) {
+        self.backgroundImageView.alpha = 0.5;
+        self.blurredImageView.alpha = 1;
+        NSLog (@"Scrolling Began");
+    }
+    else { // notification called only when scrolling began or ended
+        self.backgroundImageView.alpha = 1;
+        self.blurredImageView.alpha = 0;
+        NSLog (@"Scrolling Stopped");
+    }
+}
+
+// receive either an API call completion notification or a scrolling notification and handle accordingly
 -(void)receiveUpdateNotification: (NSNotification*)notificaiton {
     NSDictionary* dict = notificaiton.userInfo;
-    CurrentWeatherModel* newModel = [dict valueForKey: @"result"];
     
-    [self updateViewsWithResult: newModel];
+    // handle notifications for api call completion
+    if ([notificaiton.name isEqualToString: @"UpdateViews"]) {
+        NSLog (@"Update UI notification received");
+        CurrentWeatherModel* newModel = [dict valueForKey: @"result"];
+        
+        if ([newModel isKindOfClass: [CurrentWeatherModel class]]) {
+            [self updateViewsWithResult: newModel];
+        }
+        else { // error occured
+            [self.view makeToast: @"An error occured. Please check if you are connected to the internet and try again" duration: 3.0 position: CSToastPositionCenter];
+        }
+    }
+    
+    // handle notifications for scroll start/end
+    if ([notificaiton.name isEqualToString: @"ScrollBegan"]) {
+        NSLog (@"Scroll start/end notification received");
+        BOOL didStartScrolling = [[dict valueForKey: @"start"] boolValue];
+        [self scrollStatusChanged: didStartScrolling];
+    }
 }
 
+// update UI elements using new model values
 -(void)updateViewsWithResult: (CurrentWeatherModel*) newModel {
     NSString* newBackgroundImageName = @"";
     [self.forecastTableViewController triggerUIUpdate: newModel];

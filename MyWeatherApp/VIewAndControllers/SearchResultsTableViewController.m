@@ -9,6 +9,7 @@
 #import "SearchResultsTableViewController.h"
 #import "CitiesUISearchViewController.h"
 #import "APIManager.h"
+#import <Toast.h>
 
 @interface SearchResultsTableViewController ()
 
@@ -18,12 +19,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.bunchOfCities = [[[NSArray alloc] initWithObjects: @"Amsterdam", @"Beirut", @"Kabul", @"Sarajevo", @"Yerevan", nil] mutableCopy];
+    // initially it was intended to use GooglePlacesAPI to get a list of places instead, but there
+    // were billing procedures to follow. A small, fixed list of cities was used to simply demonstrate
+    // searching and filtering functionalities
+    self.bunchOfCities = [[[NSArray alloc] initWithObjects:
+        @"Amman", @"Amsterdam",@"Ankara", @"Athens", @"Baghdad", @"Bangkok", @"Beijing", @"Beirut",
+        @"Berlin", @"Brussels", @"Cairo", @"Copenhagen", @"Dakar", @"Damascus", @"Doha", @"Dublin",
+        @"Georgetown", @"Hanoi", @"Helsinki", @"Islamabad", @"Jerusalem", @"Ramallah", @"Kabul",
+        @"London", @"Moscow", @"Paris", @"Tehran", @"Tokyo", @"Vienna", @"Washington", nil] mutableCopy];
     self.filteredCities = [[NSMutableArray alloc] initWithCapacity: 0];
 }
 
@@ -45,13 +48,19 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString* currentCityString = [self.filteredCities objectAtIndex: indexPath.row];
     [self.weakParent setActive: NO];
-    self.weakParent.searchBar.text = currentCityString;
+    self.weakParent.searchBar.text = @"";
     
     // make call with selected city
     [[APIManager sharedInstance] getCurrentWeather: currentCityString completionBlock:^(CurrentWeatherModel* result, BOOL error) {
         if (error == NO) {
-            NSDictionary* userInfo = [NSDictionary dictionaryWithObject: result forKey:   @"result"];
+            NSDictionary* userInfo = [NSDictionary dictionaryWithObject: result forKey: @"result"];
             
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateViews" object: nil userInfo: userInfo];
+        }
+        else {
+            NSDictionary* userInfo = [NSDictionary dictionaryWithObject: @"0" forKey: @"result"];
+            
+            // send nil as result to indicate error occured
             [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateViews" object: nil userInfo: userInfo];
         }
     }];

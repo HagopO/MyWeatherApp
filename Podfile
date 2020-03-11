@@ -6,7 +6,7 @@ target 'MyWeatherApp' do
   use_frameworks!
 
   # Pods for MyWeatherApp
-  pod 'TSMessages'
+  pod 'Toast'
   pod 'RestKit'
 
   target 'MyWeatherAppTests' do

@@ -18,15 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 // API manager should NEVER be called with init. [APIManager sharedInstance] is the only
 // way to ensure singleton behavior
--(instancetype)init NS_UNAVAILABLE;
+-(instancetype)init NS_UNAVAILABLE; // only available to API manager
 
+// get current weather given a city name
 -(void)getCurrentWeather: (NSString*)queryString completionBlock:(void (^) (CurrentWeatherModel *response, bool errorOccured)) handler;
 
 @property (nonatomic, strong) RKObjectManager* restKitManager;
 
-@property (nonatomic, strong) NSString* weatherStackBaseURLString;
-@property (nonatomic, strong) NSString* weatherStackAPIAccessKeyString;
-@property (nonatomic, strong) NSString* currentWeahterWithForecastServiceURLString;
+@property (nonatomic, strong) NSString* weatherStackBaseURLString; // weather stack url
+@property (nonatomic, strong) NSString* weatherStackAPIAccessKeyString; // API key
+@property (nonatomic, strong) NSString* currentWeatherWithForecastServiceURLString;
 
 @end
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
     -(void)triggerUIUpdate: (CurrentWeatherModel*) newModel;
 @end
 
-@interface ForecastTableViewController : UITableViewController <UIUpdateDelegate>
+@interface ForecastTableViewController : UITableViewController <UIUpdateDelegate, UIScrollViewDelegate>
 
 -(id)init;
 -(void)calculateUIFrames;
