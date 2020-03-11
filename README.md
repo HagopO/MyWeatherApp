@@ -17,6 +17,8 @@ A simple app that gets weather readings for selected cities.
   After cloning is completed, you might need to run 'pod update' inside the project folder to complete setup.
   1) Go inside the project folder (at the level where the Podfile exists), and run 'pod update' from the Terminal.
   
+  You should be able to compile the project now.
+  
 # Authors
 
     Hagop Ohanessian
