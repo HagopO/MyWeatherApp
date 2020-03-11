@@ -178,7 +178,7 @@
     self.cityLabel.backgroundColor = [UIColor clearColor];
     self.cityLabel.font = [UIFont fontWithName: @"Helvetica" size: 30];
     self.cityLabel.attributedText = [[NSAttributedString alloc] initWithString: @"Loading..." attributes:@{ NSStrokeColorAttributeName: [UIColor whiteColor],  NSForegroundColorAttributeName: [UIColor blackColor], NSStrokeWidthAttributeName: @-2.0}];
-    self.cityLabel.textAlignment = NSTextAlignmentCenter;
+    self.cityLabel.textAlignment = NSTextAlignmentRight;
     [headerView addSubview: self.cityLabel];
     
     // add humidity and windspeed
