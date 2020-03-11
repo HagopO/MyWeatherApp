@@ -14,26 +14,10 @@ A simple app that gets weather readings for selected cities.
   2) Enter the repository URL in the top of the dialog. (https://github.com/HagopO/MyWeatherApp.git)
   3) Clone.
   
-  After cloning is completed, you might need to run 'pod install' inside the project folder to complete setup.
+  After cloning is completed, you might need to run 'pod update' inside the project folder to complete setup.
+  1) Go inside the project folder (at the level where the Podfile exists), and run 'pod update' from the Terminal.
   
-  
-Contributing
+# Authors
 
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-Versioning
-
-We use SemVer for versioning. For the versions available, see the tags on this repository.
-Authors
-
-    Billie Thompson - Initial work - PurpleBooth
-
-See also the list of contributors who participated in this project.
-License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details
-Acknowledgments
-
-    Hat tip to anyone whose code was used
-    Inspiration
-    etc
+    Hagop Ohanessian
 
